@@ -15,6 +15,17 @@
 
 ---
 
+> ⚠️ **Note:** Emovox currently supports only **short stories**.
+>
+> This limitation exists because the pipeline processes each sentence individually using multiple AI models:
+> - Emotion detection using DistilRoBERTa
+> - Voice prompt generation via TinyLlama
+> - Speech synthesis using **Parler-TTS**, which can be slow for longer texts
+> - Parler-TTS focuses on generating emotionally rich and high-fidelity audio, which typically requires more computation per sentence than other TTS models.
+> As a result, generating narration for long stories can be **time-consuming and resource-intensive**.
+>
+> 🔄 **Planned Improvement:** Future versions of Emovox aim to replace or supplement Parler-TTS with faster models like **Coqui TTS**, enabling support for longer stories.
+ 
 ## 🛠️ Tech Stack
 
 | Layer        | Technology Used                                           |
@@ -45,6 +56,7 @@
 
 3. **Navigate to backend/ folder and run the flask server**
    ```bash
+   cd backend
    python app.py
    ```
 
