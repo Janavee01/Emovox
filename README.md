@@ -94,7 +94,7 @@ Transform short stories into immersive, emotion-rich audio experiences using AI-
    - Emotion-specific music is layered under the narration.
 
 7. **Final Output**
-   - A `.wav` or `.mp3` file is returned to the frontend for playback.
+   - A `.wav` file is returned to the frontend for playback.
 
 8. **Emotion Timeline Visualization**
    - A graph is generated showing sentence-level emotions over time.
