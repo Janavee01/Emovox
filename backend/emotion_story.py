@@ -13,7 +13,6 @@ def generate_emotional_audio(story: str, progress_queue=None, output_path="final
             progress_queue.put({"stage": stage, "message": msg})
         print(f"[{stage}] {msg}")
 
-    # Stage 1: Setup
     try:
         nltk.data.find("tokenizers/punkt")
     except LookupError:
@@ -58,17 +57,12 @@ You are a voice direction assistant. Given a sentence and its dominant emotion, 
     def load_emotion_bgm(emotion, length_ms, music_dir="bg/"):
         path = f"{music_dir}/{emotion}.mp3"
         if not os.path.exists(path):
-            # If emotion-specific BGM doesn't exist, use a default
             path = f"{music_dir}/neutral.mp3"
-        
         if os.path.exists(path):
             bgm = AudioSegment.from_file(path)
             return (bgm * ((length_ms // len(bgm)) + 1))[:length_ms].fade_in(1000).fade_out(1000).apply_gain(-14)
-        else:
-            # Return empty audio if no BGM found
-            return AudioSegment.silent(duration=length_ms)
+        return AudioSegment.silent(duration=length_ms)
 
-    # Stage 2: Tokenize and detect emotions
     report("emotion", "📝 Tokenizing story and detecting emotions...")
     sentences = sent_tokenize(story)
     emotion_results = emotion_classifier(sentences)
@@ -82,11 +76,9 @@ You are a voice direction assistant. Given a sentence and its dominant emotion, 
         "fear": 500, "surprise": 400, "love": 350, "neutral": 300
     }
 
-    # Stage 3: Generate TTS for each sentence
     for i, sentence in enumerate(sentences):
         detected_emotion = emotions[i]
         report("tts", f"🎙️ Generating audio for sentence {i+1}/{len(sentences)}: '{sentence[:50]}...' ({detected_emotion})")
-
         try:
             voice_prompt = generate_voice_prompt(sentence, detected_emotion)
             input_ids = parler_tokenizer(voice_prompt, return_tensors="pt").input_ids.to(parler_device)
@@ -118,7 +110,6 @@ You are a voice direction assistant. Given a sentence and its dominant emotion, 
             report("error", f"❌ Error on sentence {i+1}: {e}")
             continue
 
-    # Stage 4: Mix with BGM
     report("mixing", "🎵 Exporting voice-only audio...")
     voice_only_path = output_path.replace(".wav", "_voice.wav")
     output_audio.export(voice_only_path, format="wav")
@@ -128,11 +119,12 @@ You are a voice direction assistant. Given a sentence and its dominant emotion, 
     final_mix = (bgm + 1).overlay(output_audio - 1)
     final_mix.export(output_path, format="wav")
 
-    # Send final completion message
     report("done", "✅ Processing complete")
 
     return {
         "audio_path": output_path,
         "dominant_emotion": dominant_emotion,
-        "num_sentences": len(sentences)
+        "num_sentences": len(sentences),
+        "emotions": emotions,
+        "sentences": sentences
     }

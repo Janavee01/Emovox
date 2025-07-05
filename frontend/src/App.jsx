@@ -1,4 +1,16 @@
 import { useRef, useState, useEffect, useLayoutEffect } from 'react';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 function App() {
   const [story, setStory] = useState('');
@@ -7,6 +19,23 @@ function App() {
   const [progressStage, setProgressStage] = useState(0);
   const [progressMessage, setProgressMessage] = useState('');
   const [jobId, setJobId] = useState(null);
+  const [emotionData, setEmotionData] = useState(null);
+  const [showTimeline, setShowTimeline] = useState(false);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const audioRef = useRef(null);
+  const chartRef = useRef(null);
+
+  const emotionToColor = (emotion) => {
+  switch (emotion.toLowerCase()) {
+    case "joy": return "rgb(251, 191, 36)";
+    case "sadness": return "rgb(59, 130, 246)";
+    case "anger": return "rgb(239, 68, 68)";
+    case "fear": return "rgb(132, 204, 22)";
+    case "surprise": return "rgb(14, 165, 233)";
+    case "love": return "rgb(236, 72, 153)";
+    default: return "rgb(148, 163, 184)";
+    }
+  };
 
   useEffect(() => {
     const savedStory = localStorage.getItem("emovox-story");
@@ -103,6 +132,13 @@ function App() {
               const audioBlob = await audioResponse.blob();
               const audioUrl = URL.createObjectURL(audioBlob);
               setAudioUrl(audioUrl);
+
+              const emotionResponse = await fetch(`http://localhost:5000/api/emotions/${progress_id}`);
+              if (emotionResponse.ok) {
+                const emotionJson = await emotionResponse.json();
+                setEmotionData(emotionJson);
+              }
+
               
               console.log('Audio URL set:', audioUrl);
             } catch (err) {
@@ -301,41 +337,144 @@ function App() {
             )}
 
             {audioUrl && (
-              <div id="audio-player" className="mt-8 space-y-6">
-                <div className="bg-blue-900/40 rounded-2xl p-6 backdrop-blur-sm border border-cyan-400/20">
-                  <h3 className="text-white font-semibold mb-4 flex items-center">
-                    <span className="mr-2 text-cyan-400">✓</span>
-                    Your Story is Ready!
-                  </h3>
-                  <audio 
-                    controls 
-                    src={audioUrl} 
-                    className="w-full rounded-lg bg-blue-900/30 backdrop-blur-sm"
-                  />
-                </div>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a
-                    href={audioUrl}
-                    download="emotional_story.wav"
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:scale-105 transform transition duration-200 text-center shadow-lg hover:shadow-cyan-500/25"
-                  >
-                    <span className="mr-2">↓</span>
-                    Download Audio
-                  </a>
-                  <button
-                    onClick={() => {
-                      setStory('');
-                      setAudioUrl(null);
-                      setProgressStage(0);
-                      setProgressMessage('');
-                    }}
-                    className="flex-1 px-6 py-3 bg-blue-900/40 text-white rounded-xl font-semibold hover:bg-blue-800/50 transition duration-200 backdrop-blur-sm border border-cyan-400/30"
-                  >
-                    Create Another Story
-                  </button>
-                </div>
-              </div>
-            )}
+  <div id="audio-player" className="mt-8 space-y-6">
+    <div className="bg-blue-900/40 rounded-2xl p-6 backdrop-blur-sm border border-cyan-400/20">
+      <h3 className="text-white font-semibold mb-4 flex items-center">
+        <span className="mr-2 text-cyan-400">✓</span>
+        Your Story is Ready!
+      </h3>
+      <audio
+        ref={audioRef}
+        controls
+        src={audioUrl}
+        className="w-full rounded-lg bg-blue-900/30 backdrop-blur-sm"
+        onRateChange={() => setPlaybackRate(audioRef.current.playbackRate)}
+      />
+      <div className="mt-4 flex items-center gap-4">
+        <label className="text-cyan-100">Speed:</label>
+        <select
+          className="bg-blue-800 text-white rounded px-3 py-1"
+          value={playbackRate}
+          onChange={(e) => {
+            const rate = parseFloat(e.target.value);
+            setPlaybackRate(rate);
+            if (audioRef.current) audioRef.current.playbackRate = rate;
+          }}
+        >
+          <option value={0.5}>0.5x</option>
+          <option value={1}>1x</option>
+          <option value={1.5}>1.5x</option>
+          <option value={2}>2x</option>
+        </select>
+      </div>
+    </div>
+
+    <div className="flex flex-col sm:flex-row gap-4">
+      <a
+        href={audioUrl}
+        download="emotional_story.wav"
+        className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-semibold hover:scale-105 transform transition duration-200 text-center shadow-lg hover:shadow-cyan-500/25"
+      >
+        <span className="mr-2">↓</span>
+        Download Audio
+      </a>
+      <button
+        onClick={() => setShowTimeline(!showTimeline)}
+        className="flex-1 px-6 py-3 bg-cyan-700 text-white rounded-xl font-semibold hover:bg-cyan-600 transition duration-200 backdrop-blur-sm border border-cyan-400/30"
+      >
+        {showTimeline ? "Hide Emotional Timeline" : "Show Emotional Timeline"}
+      </button>
+    </div>
+
+    {showTimeline && emotionData && (
+      <div className="mt-8 bg-blue-900/30 p-6 rounded-2xl border border-cyan-400/20">
+        <div className="flex justify-end gap-4 mb-4">
+  <button
+    onClick={() => {
+      if (chartRef.current) {
+        const url = chartRef.current.toBase64Image();
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "emotion_timeline.png";
+        link.click();
+      }
+    }}
+    className="px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-500"
+  >
+    Export as PNG
+  </button>
+
+  <button
+    onClick={() => {
+      const csvHeader = "Sentence,Emotion\n";
+      const csvRows = emotionData.sentences.map((sentence, i) =>
+        `"${sentence.replace(/"/g, '""')}",${emotionData.emotions[i]}`
+      );
+      const csvContent = csvHeader + csvRows.join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "emotion_timeline.csv";
+      link.click();
+    }}
+    className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-500"
+  >
+    Download CSV
+  </button>
+</div>
+
+<Line
+ ref={(chart) => {
+  if (chart) chartRef.current = chart.chartInstance ?? chart;
+}}
+  data={{
+    labels: emotionData.sentences.map((_, i) => `S${i + 1}`),
+    datasets: [
+      {
+        label: "Emotion per Sentence",
+        data: emotionData.emotions,
+        backgroundColor: emotionData.emotions.map(emotionToColor),
+        borderColor: "#3b82f6",
+        borderWidth: 1,
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        fill: false,
+        tension: 0.3
+      }
+    ]
+  }}
+  options={{
+    responsive: true,
+    scales: {
+      y: {
+        type: "category",
+        labels: [...new Set(emotionData.emotions)],
+        title: { display: true, text: "Emotion" }
+      },
+      x: { title: { display: true, text: "Sentence" } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function (ctx) {
+            const index = ctx.dataIndex;
+            const sentence = emotionData.sentences[index];
+            const emotion = emotionData.emotions[index];
+            return [`Sentence: "${sentence}"`, `Emotion: ${emotion}`];
+          }
+        }
+      }
+    }
+  }}
+/>
+
+      </div>
+    )}
+  </div>
+)}
           </div>
         </div>
       </section>
