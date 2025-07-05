@@ -180,27 +180,32 @@ function App() {
   ];
 
   const features = [
-    {
-      icon: <div className="w-8 h-8 text-cyan-400 text-2xl"></div>,
-      title: "Emotion Detection",
-      description: "Advanced AI analyzes emotional context and tone in your stories"
-    },
-    {
-      icon: <div className="w-8 h-8 text-sky-400 text-2xl"></div>,
-      title: "Dynamic Voice Synthesis",
-      description: "Voice modulation that matches the emotional intensity of your narrative"
-    },
-    {
-      icon: <div className="w-8 h-8 text-blue-400 text-2xl"></div>,
-      title: "Adaptive Music Scoring",
-      description: "Background music that evolves with your story's emotional journey"
-    },
-    {
-      icon: <div className="w-8 h-8 text-indigo-400 text-2xl"></div>,
-      title: "Real-time Processing",
-      description: "Instant audio generation with professional-quality output"
-    }
-  ];
+  {
+    icon: <div className="w-8 h-8 text-cyan-400 text-2xl"></div>,
+    title: "Emotion Detection",
+    description: "Accurately detects emotional tone in each sentence for nuanced storytelling"
+  },
+  {
+    icon: <div className="w-8 h-8 text-lime-400 text-2xl"></div>,
+    title: "TinyLlama Prompt Direction",
+    description: "Harnesses TinyLlama to steer narration style and context based on emotion"
+  },
+  {
+    icon: <div className="w-8 h-8 text-pink-400 text-2xl"></div>,
+    title: "Background Music",
+    description: "Adaptive background music that flows with the emotional rhythm of the story"
+  },
+  {
+    icon: <div className="w-8 h-8 text-amber-400 text-2xl"></div>,
+    title: "Emotional Timeline",
+    description: "Tracks and visualizes how emotions change throughout the narrative"
+  },
+  {
+    icon: <div className="w-8 h-8 text-indigo-400 text-2xl"></div>,
+    title: "Emotion-Filled Narration",
+    description: "Realistic voice generation that reflects the emotion of every moment"
+  }
+];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950">
