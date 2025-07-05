@@ -106,15 +106,15 @@ Transform short stories into immersive, emotion-rich audio experiences using AI-
 
 ```bash
 Emovox/
-├── app.py                  # Flask backend entry point
-├── emotion_story.py        # Core logic for TTS, emotion detection, and mixing
-├── requirements.txt        # Python dependencies
-├── outputs/                # Generated audio files
-├── bg/                     # Background music files by emotion
-├── frontend/               # React app (optional location)
-└── README.md
+├── backend/ 
+│ ├── app.py 
+│ └── emotion_story.py 
+│ └── bg/ 
+├── frontend/ 
+│ ├── public/ 
+│ └── src/ 
+│    └── App.jsx 
 ```
-
 ---
 
 ## 🧠 **Models Used**
