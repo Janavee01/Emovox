@@ -14,9 +14,8 @@
 - 🌐 **Web Interface**: React frontend with real-time progress updates and audio playback.
 
 ---
+⚠️ **Note:** Emovox currently supports only **short stories**.
 
-> ⚠️ **Note:** Emovox currently supports only **short stories**.
->
 > This limitation exists because the pipeline processes each sentence individually using multiple AI models:
 > - Emotion detection using DistilRoBERTa
 > - Voice prompt generation via TinyLlama
