@@ -1,0 +1,32 @@
+Project Name
+Used to identify your Project on the Dashboard, Vercel CLI, and in the URL of your Deployments.
+
+emovox
+vercel.com/janavee01s-projects/
+Learn more about Project Name
+Project ID
+Used when interacting with the Vercel API.
+
+prj_ilClFIfGlAuBMsBbhi4s6eSj9aKI
+Learn more about Project ID
+Vercel Toolbar
+Enable the Vercel Toolbar on your Deployments.
+
+Pre-Production Deployments
+
+Default (controlled at the team level)
+Production Deployments
+
+Default (controlled at the team level)
+To use the toolbar in production your team members need the Chrome extension or to enable the toolbar for that domain in the toolbar menu. Learn more about using the toolbar in production.
+Learn more about the Vercel Toolbar
+Transfer
+Transfer your project to another team without downtime or workflow interruptions.
+
+Learn more about Transferring Projects
+Delete Project
+The project will be permanently deleted, including its deployments and domains. This action is irreversible and can not be undone.
+
+Deployment Failed
+emovox
+Last updated 5m ago
