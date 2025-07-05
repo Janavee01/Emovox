@@ -127,5 +127,4 @@ Emovox/
 
 - [`parler-tts/parler-tts-mini-expresso`](https://huggingface.co/parler-tts/parler-tts-mini-expresso)  
   *Creates high-quality, emotionally nuanced audio clips.*
-
 ---
