@@ -1,8 +1,6 @@
 # 🎙️ Emovox — Emotion-Aware Storyteller
 
-**Emovox** is a full-stack generative AI application that transforms short written stories into emotionally expressive audio. It uses state-of-the-art NLP and TTS models to detect sentence-level emotions and generate matching vocal narration, enhanced with adaptive background music.
-
-> 🧠 Built as an internship project using Python, Flask, React, HuggingFace Transformers, and Parler-TTS.
+**Emovox** is a full-stack generative AI application that transforms short written stories into emotionally expressive audio. It uses state-of-the-art NLP and TTS models to detect sentence-level emotions and generate matching vocal narration. To make the speech sound more human and emotionally appropriate, Emovox uses a lightweight language model (TinyLlama) to generate natural-sounding voice direction prompts, guiding how each sentence should be spoken by the TTS system. The final audio is further enhanced with adaptive background music that aligns with the overall emotional tone of the story.
 
 ---
 
