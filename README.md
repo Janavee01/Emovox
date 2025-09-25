@@ -56,14 +56,18 @@ Emovox currently supports **only short stories**.
 
 ###  🔹 Frontend Setup (React)
 #### Open a new terminal and navigate to the frontend/ folder 
+1. **Navigate to frontend/ folder**
+   ```bash
+   cd frontend
+   ```
 
-1. **Install required packages:**
+2. **Install required packages:**
    ```bash
     npm install
     npm install chart.js react-chartjs-2
    ```
 
-2. **Start the React app**
+3. **Start the React app**
    ```bash
     npm start/ npm run dev(if vite is used)
    ```
