@@ -3,7 +3,8 @@
 **Emovox** is a full-stack generative AI application that transforms short written stories into emotionally expressive audio. It uses state-of-the-art NLP and TTS models to detect sentence-level emotions and generate matching vocal narration. To make the speech sound more human and emotionally appropriate, Emovox uses TinyLlama to generate natural-sounding voice direction prompts, guiding how each sentence should be spoken by the TTS system. The final audio is further enhanced with adaptive background music that aligns with the overall emotional tone of the story.
 
 ---
-<img width="1282" height="536" alt="image" src="https://github.com/user-attachments/assets/fd9ddc9a-385e-4f64-806b-883d7262e9ba" />
+<img width="1890" height="883" alt="image" src="https://github.com/user-attachments/assets/e2bbe38b-0c03-46db-9d6f-884d65ea0d9a" />
+
 
 ## 🔧 Features
 
