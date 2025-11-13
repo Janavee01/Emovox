@@ -1,0 +1,8 @@
+flask
+flask-cors
+requests
+transformers
+torch
+pydub
+soundfile
+nltk
