@@ -52,11 +52,13 @@ Emovox currently supports **only short stories**.
 3. **Navigate to backend/ folder and run the flask server**
    ```bash
    cd backend
+   pip install -r requirements.txt
    python app.py
    ```
 
 ###  🔹 Frontend Setup (React)
-#### Open a new terminal and navigate to the frontend/ folder 
+#### Open a new terminal and activate the venv
+
 1. **Navigate to frontend/ folder**
    ```bash
    cd frontend
