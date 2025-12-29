@@ -52,6 +52,7 @@ Emovox currently supports **only short stories**.
 3. **Navigate to backend/ folder and run the flask server**
    ```bash
    cd backend
+   pip install -r requirements.txt
    python app.py
    ```
 
