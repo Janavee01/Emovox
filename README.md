@@ -57,9 +57,7 @@ Emovox currently supports **only short stories**.
    ```
 
 ###  🔹 Frontend Setup (React)
-#### Open a new terminal and navigate to the frontend/ folder 
-
-**activate the venv**
+#### Open a new terminal and activate the venv
 
 1. **Navigate to frontend/ folder**
    ```bash
