@@ -2,6 +2,7 @@ flask
 flask-cors
 requests
 transformers
+parler-tts
 torch
 pydub
 soundfile
