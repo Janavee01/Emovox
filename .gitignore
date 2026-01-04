@@ -1,2 +1,11 @@
 __pycache__/
 node_modules/
+venv/
+*.pyc
+outputs/
+*.wav
+*.mp3
+.env
+.DS_Store
+.vscode/
+
