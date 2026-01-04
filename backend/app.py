@@ -6,7 +6,7 @@ import time
 import json
 import os
 import uuid
-
+import models
 from emotion_story import generate_emotional_audio
 
 app = Flask(__name__)
@@ -56,7 +56,7 @@ def story_to_audio():
                 if progress_id not in audio_paths:
                     progress_queue.put({"stage": "error", "message": "❌ Processing terminated unexpectedly."})
                 elif not any(item.get("stage") == "done" for item in list(progress_queue.queue)):
-                    progress_queue.put({"stage": "done", "message": "✅ Processing complete"})
+                    progress_queue.put({"stage": "done", "message": "Processing complete"})
 
         Thread(target=background_task).start()
         return jsonify({"progress_id": progress_id})
